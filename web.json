@@ -1,0 +1,8 @@
+{
+  "mysql": {
+    "server_root_password": "hello",
+    "server_repl_password": "hello",
+    "server_debian_password": "hello"
+  },
+  "run_list": [ "recipe[apt]", "recipe[phpapp]", ["recipe[mysql::server]"],"recipe[java]", "recipe[tomcat]" ]
+}

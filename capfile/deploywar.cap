@@ -1,0 +1,25 @@
+# config
+pwd = File.dirname(__FILE__)
+namespace :automation do
+  task   :prepare  :hosts => "10.10.10.10" do
+	    puts "----------- Placing the war -------------------------"
+		path="/var/lib/tomcat6/webapps"
+		if unless remote_file_exists?(path)
+    			puts "Directory #{path} exists!!!!!!!"
+			puts "----Shutting down tomcat -------------------"
+			run "sudo /usr/share/tomcat6/bin/shutdown.sh"
+			puts "----Shutdown tomcat done -------------------"
+			puts "----Copying the war-------------------"
+                  	run "sudo cp /tmp/hudson-3.1.0.war  #{path}/" 
+			upload("/tmp/hudson-3.1.0.war", "#{path}/, :via => :scp)
+			puts "----Copying Completed-------------------"
+			puts "----Starting tomcat -------------------"
+                        run "sudo /usr/share/tomcat6/bin/shutdown.sh"
+                        puts "----Starting tomcat done -------------------"
+
+		else
+    			puts "Directory #{path} do not exists"
+		end
+	    puts "-------------------version----------------------------" 
+         end
+ end
